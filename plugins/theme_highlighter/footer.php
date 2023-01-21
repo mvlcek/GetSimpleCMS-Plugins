@@ -126,6 +126,8 @@
   $('h3').after('<p>While editing press Ctrl-Space for suggestions, F11 for fullscreen.</p>');
 <?php } else if (basename($_SERVER['PHP_SELF']) == 'load.php' && @$_GET['id'] == 'i18n_specialpages') { ?>
   $('.compdiv').prepend('<p>While editing press Ctrl-Space for suggestions, F11 for fullscreen.</p>')
+<?php } else if (basename($_SERVER['PHP_SELF']) == 'load.php' && @$_GET['id'] == 'custom-admin-css') { ?>
+  $('h3').after('<p>While editing press Ctrl-Space for suggestions, F11 for fullscreen.</p>')
 <?php } else { ?>
   $('.edit-nav').after('<p>While editing press Ctrl-Space for suggestions, F11 for fullscreen.</p>');
 <?php } ?>
@@ -183,6 +185,9 @@
   } else if (basename($_SERVER['PHP_SELF']) == 'load.php' && @$_GET['id'] == 'i18n_specialpages') {
     $selector = '.compdiv textarea';
     $mode = 'php';
+  } else if (basename($_SERVER['PHP_SELF']) == 'load.php' && @$_GET['id'] == 'custom-admin-css') {
+    $selector = '#custom_css';
+    $mode = 'css';
   }
   if ($mode == 'php') {
 ?>

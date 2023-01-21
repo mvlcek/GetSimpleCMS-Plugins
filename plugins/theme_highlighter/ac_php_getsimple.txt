@@ -17,9 +17,10 @@ get_site_email()
 get_site_name()
 get_site_url()
 get_theme_url()
-menu_data($slug=)
+menu_data($slug)
 return_page_slug()
 return_page_title()
 return_site_ver()
+getPageField($slug, $filename)
 
 

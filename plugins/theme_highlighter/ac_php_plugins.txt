@@ -2,7 +2,9 @@
 find_i18n_url($slug,$parent,$language,$type='full')
 get_i18n_content($slug)
 get_i18n_component($id, $param1, ...)
+get_i18n_header()
 get_i18n_link($slug)
+return_i18n_available_languages()
 return_i18n_component($slug)
 return_i18n_default_language()
 return_i18n_lang_url($language=null)
@@ -11,6 +13,12 @@ return_i18n_page_data($slug)
 return_i18n_setlang_url($language)
 
 // I18N (navigation)
+I18N_FILTER_NONE
+I18N_FILTER_CURRENT
+I18N_FILTER_LANGUAGE
+I18N_FILTER_MENU
+I18N_OUTPUT_MENU
+I18N_OUTPUT_TITLE
 I18N_SHOW_NORMAL
 I18N_SHOW_MENU
 I18N_SHOW_TITLES
@@ -18,7 +26,7 @@ I18N_SHOW_PAGES
 I18N_SHOW_LANGUAGE
 find_i18n_url($slug, $parent, $language, $type='full')
 get_i18n_breadcrumbs($slug)
-get_i18n_navigation($slug, $minlevel=0, $maxlevel=0, $show=I18N_SHOW_NORMAL)
+get_i18n_navigation($slug, $minlevel=0, $maxlevel=0, $show=I18N_SHOW_NORMAL, $component=null)
 return_i18n_breadcrumbs($slug)
 return_i18n_menu_data($slug, $minlevel=0, $maxlevel=0, $show=I18N_SHOW_NORMAL)
 return_i18n_pages()
@@ -32,9 +40,11 @@ return_custom_field($name, $default='')
 get_special_field($name, $default='', $isHTML=true)
 get_special_field_date($name, $format=null)
 get_special_field_excerpt($name, $length)
+get_special_tags($slug=null, $separator=' ', $all=false)
 return_special_field($name, $default='')
 return_special_field_date($name, $format=null)
 return_special_field_excerpt($name, $length)
+return_special_page_type()
 
 // I18N Search
 get_i18n_search_results($params)
@@ -53,3 +63,13 @@ nm_list_recent()
 nm_list_archives()
 nm_list_tags()
 nm_search()
+
+// Front-End User Login
+show_login_box()
+user_login_register()
+
+// GSGallery
+squareit_gallery($gallery_id, $return)
+
+
+welcome_message_login()

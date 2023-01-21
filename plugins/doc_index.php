@@ -9,7 +9,7 @@ define('DOC_INDEX', 'doc_index.txt');
 register_plugin(
   $thisfile, 
   'Document Indexer',   
-  '0.1',     
+  '0.1.1',     
   'Martin Vlcek',
   'http://mvlcek.bplaced.net', 
   'Indexes (currently only PDF) documents (requires I18N Search)',

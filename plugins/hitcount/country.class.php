@@ -133,7 +133,7 @@ class HitcountCountries {
   }
   
   private static function convert_base_10_to_16($source_str) {
-  	$source = [];
+  	$source = array();
   	// convert to digit array with least significant digit first
   	$source_len = strlen($source_str);
   	for ($i = 0; $i < $source_len; $i++) {
@@ -141,7 +141,7 @@ class HitcountCountries {
   		if ($c >= 48 && $c <= 57) array_unshift($source, $c - 48);
   	}
   	while (count($source) > 0 && $source[count($source) - 1] === 0) array_pop($source);
- 		$target = [];
+ 		$target = array();
  		while (count($source) > 0) {
  			// divide by $to
  			$remainder = 0;

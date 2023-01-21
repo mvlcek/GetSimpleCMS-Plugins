@@ -61,13 +61,21 @@
 ?>
     <style type="text/css">
       .CodeMirror-scroll { height: 660px; width: /*635px*/ 100%; border: 1px solid #AAAAAA; }
+      #maincontent .main .CodeMirror pre { padding-bottom: 0; overflow: hidden; }
+    </style>
+<?php
+    } else if (basename($_SERVER['PHP_SELF']) == 'load.php' && @$_GET['id'] == 'custom-admin-css') {
+?>
+    <style type="text/css">
+      .CodeMirror-scroll { height: 420px; width: 100%; border: 1px solid #AAAAAA; }
+      #maincontent .main .CodeMirror pre { padding-bottom: 0; overflow: hidden; }
     </style>
 <?php
     } else {
 ?>
     <style type="text/css">
       .CodeMirror-scroll { height: 200px; width: 632px; border: 1px solid #AAAAAA; }
-      #maincontent .main .CodeMirror pre { padding-bottom: 0; overflow: visible; }
+      #maincontent .main .CodeMirror pre { padding-bottom: 0; overflow: hidden; }
     </style>
 <?php
     }

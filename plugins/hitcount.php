@@ -2,7 +2,7 @@
 /*
 Plugin Name: HitCount
 Description: Counts page hits and visitors
-Version: 2.2
+Version: 2.2.1
 Author: Martin Vlcek (c) 2011 - 2020
 Author URI: http://mvlcek.bplaced.net
 
@@ -38,7 +38,7 @@ define('HITCOUNT_VISIT_DURATION', 30*60);
 register_plugin(
 	$thisfile, 
 	'HitCount', 	
-	'2.2', 		
+	'2.2.1', 		
 	'Martin Vlcek',
 	'http://mvlcek.bplaced.net', 
 	'Counts page hits and visitors',
@@ -147,7 +147,7 @@ function hitcount_init($slugOrFile) {
     if (!$visit) {
       $visit = hitcount_count($hcdir . 'visits.txt');
       $country = hitcount_get_country();
-      if ($country) $visit = $visit.'/'.$country;
+      if ($country && trim($country) !== '-') $visit = $visit.'/'.$country;
     }
     # setting cookie with options is not available in PHP 5.6
     if (!@setcookie(HITCOUNT_VISIT_COOKIE, $visit, array(
@@ -214,7 +214,7 @@ function hitcount_is_blacklisted() {
 
 function hitcount_get_country() {
   if (file_exists(GSDATAOTHERPATH.'ip2country.txt')) {
-  	$addr = $_SERVER['REMOTE_ADDR']; // 2a00:1450:400d:805::2004
+  	$addr = $_SERVER['REMOTE_ADDR'];
   	$ip = sprintf("%032s", lowercase(ip6hex($addr)));
     $fp = fopen(GSDATAOTHERPATH.'ip2country.txt', "r");
     $iplen = 32;

@@ -82,7 +82,7 @@ function i18n_gallery_cycle_header($gallery) {
   global $SITEURL;
   if (i18n_gallery_check($gallery,'jquery') && i18n_gallery_needs_include('jquery.js')) {
 ?>
-    <script type="text/javascript" src="<?php echo i18n_gallery_site_link(); ?>plugins/i18n_gallery/js/jquery-1.4.3.min.js"></script>
+    <script type="text/javascript" src="<?php echo i18n_gallery_site_link(); ?>plugins/i18n_gallery/js/jquery-1.11.2.min.js"></script>
 <?php
   }
   if (i18n_gallery_check($gallery,'js') && i18n_gallery_needs_include('cycle.js')) {

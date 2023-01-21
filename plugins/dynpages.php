@@ -2,7 +2,7 @@
 /*
 Plugin Name: DynPages
 Description: Replace place holders in pages with dynamic content from components (I18N enabled!)
-Version: 0.7.1
+Version: 0.7.2
 Author: Martin Vlcek
 Author URI: http://mvlcek.bplaced.net
 
@@ -27,7 +27,7 @@ $thisfile = basename(__FILE__, ".php");
 register_plugin(
 	$thisfile, 
 	'DynPages', 	
-	'0.7.1', 		
+	'0.7.2', 		
 	'Martin Vlcek',
 	'http://mvlcek.bplaced.net', 
 	'Replace place holders in pages with dynamic content from components (I18N enabled!)',
@@ -63,7 +63,7 @@ function dynpages_replace_match($match) {
   }
   $replacement .= ob_get_contents();
   ob_end_clean();
-  if (isset($saved_args)) $args = $saved_args;
+  if (isset($saved_args)) $args = $saved_args; else unset($args);
   if (!$match[1] && isset($match[4]) && $match[4]) $replacement .= $match[4];
   return $replacement;
 }

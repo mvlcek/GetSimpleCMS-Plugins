@@ -69,10 +69,12 @@
   sort($languages);
   // sort pages
   $view = @$_REQUEST['view'];
+  $sortfield = @$_REQUEST['sort'];
   if (!$view) {
     $view = I18nBasic::getProperty(I18N_PROP_PAGES_VIEW, 'hierarchical');
-  } else if ($view != I18nBasic::getProperty(I18N_PROP_PAGES_VIEW, null)) {
-    I18nBasic::setProperty(I18N_PROP_PAGES_VIEW, $view);
+    $sortfield = I18nBasic::getProperty(I18N_PROP_PAGES_SORT, 'sort');
+  } else {
+    I18nBasic::setProperties(array(I18N_PROP_PAGES_VIEW => $view, I18N_PROP_PAGES_SORT => $sortfield));
   }
   if (count($pages) > 0) {
     if ($view == 'hierarchical') {
@@ -84,8 +86,11 @@
         $level = -1;
         $sort = '';
         for ($p = $page; $p; $p = $p['parent'] ? $pages[$p['parent']] : null) {
-          $sort = sprintf('%03d',$p['menuOrder']).$p['title'].' '.$sort;
-          if ($p['parent']) $pages[$p['parent']]['hasChildren'] = true;
+        	$sort = sprintf('%03d',$p['menuOrder']).$p['title'].' '.$sort;
+          if ($sortfield) {
+          	$sort = @$p[$sortfield].' '.$sort;
+        	}
+        	if ($p['parent']) $pages[$p['parent']]['hasChildren'] = true;
           if ($level >= 0 && !@$p['open']) { $page['invisible'] = true; unset($page['open']); }
           $level++;
         }
@@ -93,6 +98,9 @@
         $page['sort'] = $sort;
       } else {
         $page['sort'] = $page['title'];
+        if ($sortfield) {
+        	$page['sort'] = @$page[$sortfield].' '.$page['sort'];
+       	}
       }
     }
   }
@@ -101,13 +109,15 @@
   $counter = count($pages);
   // display overview
   $link = "load.php?id=i18n_base";
+  $viewlink = $link . ($isHierarchical ? '&view=flat&sort=title' : '&view=hierarchical&sort='.$sortfield);
+  $titlelink = $link . ($sortfield == 'title' ? '&view=hierarchical' : '&view=hierarchical&sort=title');
   $singleLanguage = defined('I18N_SINGLE_LANGUAGE') && I18N_SINGLE_LANGUAGE && count($languages) <= 0;
 ?>
 			<h3 class="floated" style="float:left"><?php echo i18n_r('PAGE_MANAGEMENT'); ?></h3>
 			<div class="edit-nav" >
         <p>
-          <a href="<?php echo $link; ?>&view=hierarchical" <?php echo $view=='hierarchical' ? 'class="current"' : ''; ?> ><?php echo i18n_r('i18n_base/VIEW_HIERARCHICAL'); ?></a>
-          <a href="<?php echo $link; ?>&view=title" <?php echo $view=='title' ? 'class="current"' : ''; ?> ><?php echo i18n_r('i18n_base/VIEW_TITLE'); ?></a>
+          <a href="<?php echo $viewlink; ?>" <?php echo $isHierarchical ? 'class="current"' : ''; ?> ><?php echo i18n_r('i18n_base/VIEW_HIERARCHICAL'); ?></a>
+          <a href="<?php echo $titlelink; ?>" <?php echo !$isHierarchical || $sortfield == 'title' ? 'class="current"' : ''; ?> ><?php echo i18n_r('i18n_base/VIEW_TITLE'); ?></a>
           <?php if ($is31) { ?>
           <a href="#" id="show-characters" accesskey="<?php echo find_accesskey(i18n_r('TOGGLE_STATUS'));?>" ><?php i18n('TOGGLE_STATUS'); ?></a>          
           <?php } else { ?>

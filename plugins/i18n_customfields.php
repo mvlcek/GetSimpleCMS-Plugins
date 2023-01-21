@@ -2,7 +2,7 @@
 /*
 Plugin Name: I18N Custom Fields
 Description: Custom Fields (I18N enabled)
-Version: 1.8.2
+Version: 1.9.3
 Author: Martin Vlcek
 Author URI: http://mvlcek.bplaced.net
 
@@ -26,7 +26,7 @@ define('I18N_CUSTOMFIELDS_FILE', 'customfields.xml');
 register_plugin(
 	$thisfile,
 	'I18N Custom Fields',
-	'1.8.2',
+	'1.9.3',
   'Martin Vlcek',
   'http://mvlcek.bplaced.net/',
   'Custom fields for pages (I18N enabled) - based on Mike Swan\'s plugin',
@@ -34,7 +34,6 @@ register_plugin(
 	'i18n_customfields_configure'
 );
 
-require_once(GSPLUGINPATH.'i18n_common/common.php');
 i18n_merge('i18n_customfields') || i18n_merge('i18n_customfields', 'en_US');
 
 add_action('index-pretemplate', 'i18n_get_custom_fields'); // add hook to make custom field values available to theme
@@ -65,7 +64,7 @@ function i18n_customfields_gsversion() {
 
 function i18n_customfield_defs() {
 	global $i18n_customfield_defs, $i18n_customfield_types;
-  if ($i18n_customfield_defs == null) {
+  if ($i18n_customfield_defs === null) {
     $i18n_customfield_defs = array();
     $i18n_customfield_types = array();
     $file = GSDATAOTHERPATH . I18N_CUSTOMFIELDS_FILE;
@@ -97,7 +96,7 @@ function i18n_customfield_defs() {
 
 function i18n_customfield_types() {
   global $i18n_customfield_types;
-  if ($i18n_customfield_types == null) i18n_customfield_defs();
+  if ($i18n_customfield_types === null) i18n_customfield_defs();
   return $i18n_customfield_types;
 }
 
@@ -165,6 +164,14 @@ function return_custom_field($name, $default='') {
   return @$customfields[$name] ? $customfields[$name] : $default;
 } 
 
+function return_custom_field_options($name) {
+  $defs = i18n_customfield_defs();
+  foreach ($defs as $def) {
+    if ($def['key'] == $name) return @$def['options'];
+  }
+  return null;
+}
+
 if (!function_exists('get_page_creation_date')) {
   function get_page_creation_date($i = "l, F jS, Y - g:i A", $echo=true) {
   	global $date;
@@ -212,6 +219,10 @@ function i18n_customfields_index($item) {
       $name = @$def['key'];
       if (@$def['type'] == 'textarea') {
         $item->addContent($name, html_entity_decode(strip_tags($item->$name), ENT_QUOTES, 'UTF-8'));
+      } else if (@$def['type'] == 'checkbox') {
+      	if ($item->$name) {
+      		$item->addTags($name, array($name));
+      	}
       } else {
         $item->addContent($name, html_entity_decode($item->$name, ENT_QUOTES, 'UTF-8'));
       }

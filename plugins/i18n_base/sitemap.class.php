@@ -3,7 +3,7 @@ require_once(GSPLUGINPATH.'i18n_base/frontend.class.php');
 
 class I18nSitemap {
     
-  public static function generateSitemap() {
+  public static function generateSitemapWithoutPing() {
     global $SITEURL;
 
     $filenames = getFiles(GSDATAPAGESPATH);
@@ -41,7 +41,7 @@ class I18nSitemap {
             $pageLoc = find_i18n_url($page['url'], $page['parent'], $deflang);
           }
         } else {
-          $pageLoc = find_url($page['url'], $page['parent']);
+          $pageLoc = find_i18n_url($page['url'], $page['parent']);
         }      
         // set <lastmod>
         $pageLastMod = makeIso8601TimeStamp(date("Y-m-d H:i:s", strtotime($page['date'])));
@@ -60,7 +60,12 @@ class I18nSitemap {
     //create xml file
     $file = GSROOTPATH .'sitemap.xml';
     XMLsave($xml, $file);
-    
+  }
+  
+  public static function generateSitemap() {
+    global $SITEURL;
+
+    self::generateSitemapWithoutPing();
     if (!defined('GSDONOTPING') || !GSDONOTPING) {
       if (file_exists(GSROOTPATH .'sitemap.xml')){
         if( 200 === ($status=pingGoogleSitemaps($SITEURL.'sitemap.xml'))) {

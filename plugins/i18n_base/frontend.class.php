@@ -186,7 +186,7 @@ class I18nFrontend {
   public static function outputLinkTo($slug) {
     $data = self::getPageData($slug);
     if (!$data) return false;
-    echo '<a href="'.self::getURL($slug,(string) $data->parent).'">'.stripslashes((string) $data->title).'</a>';
+    echo '<a href="'.htmlspecialchars(self::getURL($slug,(string) $data->parent)).'">'.stripslashes((string) $data->title).'</a>';
     return true;
   }
 
@@ -219,6 +219,7 @@ class I18nFrontend {
       if (!$omit || !in_array('generator',$omit)) echo '<meta name="generator" content="'.$site_full_name.'" />'."\n";
       if (!$omit || !in_array('canonical',$omit)) echo '<link rel="canonical" href="'.find_i18n_url($url,$parent,$language).'" />'."\n";
     }
+    if (function_exists('get_scripts_frontend')) get_scripts_frontend();
     exec_action('theme-header');
   }
 
@@ -291,7 +292,7 @@ class I18nFrontend {
         $parents = $parent;
         if (function_exists('return_i18n_pages')) {
           $pages = return_i18n_pages();
-          while ($parent = $pages[$parent]['parent']) {
+          while ($parent = @$pages[$parent]['parent']) {
             $parents = $parent.'/'.$parents;
           }
         } elseif (function_exists('getPageField')) {

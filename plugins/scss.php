@@ -25,7 +25,7 @@ $scss_parameters = array();
  * Compiles a SCSS file to a parameter specific css file, if the SCSS file is newer ($multipleCSS = true). 
  * 
  * @param string $themeRelativeScssFile  the name of the SCSS file, e.g. "default.scss" or "css/default.scss"
- * @param array  $params                 an associative array with the parameters for the SCSS file or null, use param(paramName) in the SCSS file
+ * @param array  $params                 an associative array with the parameters for the SCSS file or null, use param('paramName') in the SCSS file
  * @param bool   $multipleCSS            if true, than for each parameter set a new CSS file is compiled 
  */
 function return_scss_css($themeRelativeScssFile, $params=null, $multipleCSS=false) {

@@ -2,7 +2,7 @@
 /*
 Plugin Name: FAQ
 Description: Display FAQs
-Version: 1.0
+Version: 1.3
 Author: Martin Vlcek
 Author URI: http://mvlcek.bplaced.net
 
@@ -20,7 +20,7 @@ $thisfile = basename(__FILE__, ".php");
 register_plugin(
 	$thisfile, 
 	'FAQ', 	
-	'1.0', 		
+	'1.3', 		
 	'Martin Vlcek',
 	'http://mvlcek.bplaced.net', 
 	'Display frequently asked questions (FAQs)',
@@ -72,10 +72,10 @@ function faq_header() {
     var faq_autoclose = <?php echo in_array('autoclose',$faq_parameters) ? 'true' : 'false'; ?>;
     function processHeaders(which, until) {
       $(which).each(function(i,h) {
-        $answer = $(h).nextUntil(until);
-        if ($answer.size() > 1) {
+        var $answer = $(h).nextUntil(until);
+        if ($answer.length > 1) {
           $(h).after($('<div/>').addClass('faq-container').addClass('faq-answer').append($answer.detach()));
-        } else if ($answer.size() == 1) {
+        } else if ($answer.length == 1) {
           $answer.addClass('faq-answer');
         } else {
           $(h).removeClass('faq-question');
@@ -84,12 +84,12 @@ function faq_header() {
     }
     $(function() {
       $('.faq-wrapper h1, .faq-wrapper h2, .faq-wrapper h3, .faq-wrapper h4, .faq-wrapper h5, .faq-wrapper h6').addClass('faq-question').addClass('closed');
-      processHeaders('.faq-wrapper h1','h1');
-      processHeaders('.faq-wrapper h2','h1, h2');
-      processHeaders('.faq-wrapper h3','h1, h2, h3');
-      processHeaders('.faq-wrapper h4','h1, h2, h3, h4');
-      processHeaders('.faq-wrapper h5','h1, h2, h3, h4, h5');
-      processHeaders('.faq-wrapper h6','h1, h2, h3, h4, h5, h6');
+      processHeaders('.faq-wrapper h1','h1, .nofaq');
+      processHeaders('.faq-wrapper h2','h1, h2, .nofaq');
+      processHeaders('.faq-wrapper h3','h1, h2, h3, .nofaq');
+      processHeaders('.faq-wrapper h4','h1, h2, h3, h4, .nofaq');
+      processHeaders('.faq-wrapper h5','h1, h2, h3, h4, h5, .nofaq');
+      processHeaders('.faq-wrapper h6','h1, h2, h3, h4, h5, h6, .nofaq');
       $('.faq-answer').hide();
       // open all topics containing marked text (normally marked by I18N Search)
       $('.faq-wrapper span.mark').parents('h1, h2, h3, h4, h5, h6').removeClass('closed').addClass('open').next().show();

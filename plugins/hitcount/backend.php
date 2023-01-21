@@ -201,10 +201,12 @@
                   g = 245 - Math.floor(130*v/max);
                   c = "rgb("+r+","+g+","+b+")";
                   e.setAttribute("fill", c);
-                  e.setAttribute("title", value+" - "+titles[value]+": "+v+" ("+p+"%)");
+                  var title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
+                  title.textContent = value+" - "+titles[value]+": "+v+" ("+p+"%)"
+                  e.appendChild(title);
                 } else {
                   e.setAttribute("fill", '#FFFFFF');
-                  e.setAttribute("title", '');
+                  while (e.lastChild) e.removeChild(e.lastChild);
                 }
               }              
             }
