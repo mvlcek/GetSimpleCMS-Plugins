@@ -219,8 +219,8 @@ class I18nSearcher {
     if (!$tags && isset($_REQUEST['tags'])) $tags = trim($_REQUEST['tags']);
     if (!$words && isset($_REQUEST['words'])) $words = trim($_REQUEST['words']);
     if (!$tags && !$words) return $results;
-    if ($tags && !is_array($tags)) $tags = trim($tags) != '' ? preg_split("/\s+/", trim($tags)) : array();
-    if ($words && !is_array($words)) $words = trim($words) != '' ? preg_split("/\s+/", trim($words)) : array();
+    if ($tags && !is_array($tags)) $tags = trim($tags) != '' ? preg_split("/\W+/", trim($tags)) : array();
+    if ($words && !is_array($words)) $words = trim($words) != '' ? preg_split("/\W+/", trim($words)) : array();
     $searcher = new I18nSearcher($tags, $words, $order, $lang);
     $results = $searcher->execute();
     return $results;

@@ -48,7 +48,7 @@
         var $form = $(e.target).closest('form');
         var tags = <?php echo json_encode($addTags); ?>;
         $(e.target).toggleClass('selected');
-        $form.find('.tags .tag.selected').each(function() { tags += ' '+$(this).text().replace(' ','_'); });
+        $form.find('.tags .tag.selected').each(function() { tags += ' '+$(this).text().replace(/\s+/g,'_'); });
         $form.find('[name=tags]').val(tags);
         <?php if ($is_ajax) { ?>
         if (tags == '') {

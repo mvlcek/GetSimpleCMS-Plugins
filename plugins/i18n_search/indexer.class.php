@@ -114,7 +114,7 @@ class I18nSearchIndexer {
   private $contentWeight = I18N_CONTENT_WEIGHT;
   private $tagMode = I18N_TAGS_LANG_OR_DEFLANG;
   
-  public static function index() {
+  public static function index($url = null) {
     if (!self::$instance) {
       self::$instance = new I18nSearchIndexer();
       self::$ismb = function_exists('mb_ereg_search');
@@ -122,8 +122,13 @@ class I18nSearchIndexer {
       self::$isi18n = function_exists('i18n_init');
       self::$defaultLanguage = function_exists('return_i18n_default_language') ? return_i18n_default_language() : '';
     }
-    self::$instance->indexPages();
-    exec_action(I18N_ACTION_INDEX);
+    if ($url) {
+    	self::$instance->load();
+    	self::$instance->indexPage($url);
+    } else {
+    	self::$instance->indexPages();
+    	exec_action(I18N_ACTION_INDEX);
+    }
     self::$instance->processTags();
     self::$instance->save();
   }
@@ -181,6 +186,19 @@ class I18nSearchIndexer {
     }
   }
   
+  public function removeItem($id) {
+  	if (!$language || $language == self::$defaultLanguage) {
+  		$language = '';
+  		$fullid = $id;
+  	} else {
+  		$fullid = $id.'_'.$language;
+  	}
+  	unset($this->itemTags[$fullid]);
+  	unset($this->dates[$fullid]);
+  	foreach ($this->words as $word => &$item) unset($item[$fullid]);
+  	foreach ($this->tags as $tag => &$item) unset($item[$fullid]);
+  }
+  
   public function addItem($id, $language, $creDate, $pubDate, $tags, $title, $content) {
     if (!$language || $language == self::$defaultLanguage) {
       $language = '';
@@ -210,9 +228,9 @@ class I18nSearchIndexer {
       if (count($tags) > 0) {
         foreach ($tags as $tag) {
           if (self::$ismb) {
-            $tag = mb_ereg_replace("[^\w]", "_", mb_strtolower($tag, 'UTF-8'));
+            $tag = mb_ereg_replace("[^\w]+", "_", mb_strtolower($tag, 'UTF-8'));
           } else {
-            $tag = preg_replace("/[^\w]/", "_", strtolower($tag));
+            $tag = preg_replace("/[^\w]+/", "_", strtolower($tag));
           }
           $this->tags[$tag][$fullid] = 1;
         }
@@ -223,7 +241,6 @@ class I18nSearchIndexer {
     
   private function indexPages() {
     global $filters;
-    $private_pages = array();
     $dir_handle = @opendir(GSDATAPAGESPATH) or die("Unable to open pages directory");
     while ($filename = readdir($dir_handle)) {
       if (strrpos($filename,'.xml') === strlen($filename)-4 && !is_dir(GSDATAPAGESPATH . $filename) ) {
@@ -239,6 +256,59 @@ class I18nSearchIndexer {
         $this->addItem($item->id,$item->language,$item->creDate,$item->pubDate,$item->tags,$item->title,$item->content);
       }
     }
+  }
+  
+  private function indexPage($url) {
+  	global $filters;
+  	$pagedata = getXML(GSDATAPAGESPATH . $url . '.xml');
+  	$item = new I18nSearchPageItem($pagedata);
+  	if ($item->private == 'Y') continue;
+  	// execute filter, but ignore return value
+  	foreach ($filters as $filter)  {
+  		if ($filter['filter'] == I18N_FILTER_INDEX_PAGE) {
+  			call_user_func_array($filter['function'], array($item));
+  		}
+  	}
+  	$this->addItem($item->id,$item->language,$item->creDate,$item->pubDate,$item->tags,$item->title,$item->content);
+  }
+  
+  private function load() {
+  	$this->dates = array();
+  	$this->tags = array();
+  	$this->itemTags = array();
+  	$this->words = array();
+  	// date file
+  	$f = fopen(GSDATAOTHERPATH . I18N_DATE_INDEX, "r");
+  	while (($line = fgets($f)) !== false) {
+  		$parts = preg_split("/\s+/", trim($line));
+  		$this->dates[$parts[0]] = $parts[1] . " " . $parts[2];
+  	}
+  	fclose($f);
+  	// tag index file
+  	$f = fopen(GSDATAOTHERPATH . I18N_TAG_INDEX, "r");
+  	while (($line = fgets($f)) !== false) {
+  		$parts = preg_split("/\s+/", trim($line));
+  		$tag = array_shift($parts);
+  		$this->tags[$tag] = array();
+  		foreach ($parts as $id) {
+  			$this->tags[tag][$id] = 1;
+  			if (!$this->itemTags[$id]) $this->itemTags[$id] = array();
+  			array_push($this->itemTags[$id], $tag);
+  		}
+  	}
+  	fclose($f);
+  	// word index file
+  	$f = fopen(GSDATAOTHERPATH . I18N_WORD_INDEX, "w");
+  	while (($line = fgets($f)) !== false) {
+  		$parts = preg_split("/\s+/", trim($line));
+  		$word = array_shift($parts);
+  		$this->words[$word] = array();
+  		foreach ($parts as $idAndScore) {
+  			list($id, $score) = preg_split("/:/", $idAndScore);
+  			$this->words[$word][$id] = $score;
+  		}
+  	}
+  	fclose($f);
   }
     
   private function save() {
