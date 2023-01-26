@@ -152,7 +152,7 @@ function i18n_gallery_cycle_header($gallery) {
       .gallery-cycle .gallery-control-numbers a {
         font-size: 18px;
         border: 0 none;
-        text-decoration: none;cylce
+        text-decoration: none;
         color: #999999;
         padding: 0px 5px;
         margin: 0px 2px;
