@@ -39,7 +39,7 @@
   <div class="tags" style="display:none">
   	<?php I18nSearchViewer::displayTagsImpl($minTagSizePercent,$maxTagSizePercent,$params); ?>
   </div>
-  <input type="hidden" name="tags" value="<?php echo htmlspecialchars(@$_REQUEST['tags']); ?>"/>
+  <input type="hidden" name="tags" value="<?php if (isset($_REQUEST['tags'])) echo htmlspecialchars($_REQUEST['tags']); ?>"/>
   <script type="text/javascript">
     $(function() {
       var $live = $('ul.search-results.search-live');
@@ -77,7 +77,7 @@
     })
   </script>
 <?php } ?>
-  <input type="text" name="words" class="search-words" value="<?php echo htmlspecialchars(@$_REQUEST['words']); ?>" <?php if ($placeholderText) echo 'placeholder="'.htmlspecialchars($placeholderText).'"'; ?>/>
+  <input type="text" name="words" class="search-words" value="<?php if (isset($_REQUEST['words'])) echo htmlspecialchars($_REQUEST['words']); ?>" <?php if ($placeholderText) echo 'placeholder="'.htmlspecialchars($placeholderText).'"'; ?>/>
   <input type="submit" name="search" class="search-submit" value="<?php echo @$goText; ?>" />
   <?php if ($is_ajax) { ?>
   <?php if ($live) { ?><div id="search-temp" style="display:none"></div><?php } ?>

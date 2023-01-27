@@ -112,7 +112,7 @@
         <tr><td><?php i18n('i18n_search/MARK'); ?></td><td><input type="checkbox" name="mark" value="on" <?php echo @$params['mark'] ? 'checked="checked"' : ''; ?>/></td><td></td></tr>
         <tr><td colspan="3"><strong><?php i18n('i18n_search/TRANSLITERATION_SETTINGS'); ?></strong></td></tr>
         <tr><td colspan="3"><?php i18n('i18n_search/TRANSLITERATION_DESCRIPTION'); ?></td></tr>
-        <tr><td><?php i18n('i18n_search/TRANSLITERATION'); ?></td><td><textarea name="transliteration" style="width:5em; height:100px;" class="text"><?php echo htmlspecialchars(@$params['transliteration']); ?></textarea></td><td></td></tr>
+        <tr><td><?php i18n('i18n_search/TRANSLITERATION'); ?></td><td><textarea name="transliteration" style="width:5em; height:100px;" class="text"><?php if (isset($params['transliteration'])) echo htmlspecialchars($params['transliteration']); ?></textarea></td><td></td></tr>
       </tbody>
     </table>
     <input type="submit" name="save" value="<?php i18n('i18n_search/SAVE_CONFIGURATION'); ?>" class="submit"/>

@@ -77,8 +77,8 @@ class I18nSearchMarker {
       if (preg_match_all('/(\w+)|([^<\w]+)|<(\/?[a-zA-Z-])[^>]*>|(<!--.*?-->|\(%.*?%\)|\{%.*?%\})/i', 
                          $html, $matches, PREG_SET_ORDER)) {
         foreach ($matches as $match) {
-          if ($ignore || $match[2] || $match[4] ||
-              ($match[3] && !preg_match("/^\/?($inlineTags)$/i", $match[3]))) {
+          if ($ignore || (isset($match[2]) && $match[2]) || (isset($match[4]) && $match[4]) ||
+              (isset($match[3]) && !preg_match("/^\/?($inlineTags)$/i", $match[3]))) {
             if ($currWord && preg_match("/^$pattern$/", $currWord)) {
               $newhtml .= self::markIt($currPart); 
             } else {
@@ -86,13 +86,13 @@ class I18nSearchMarker {
             }
             $currPart = $currWord = '';
             if ($ignore) {
-              if ($ignore && $match[3] && $match[3] == $ignore) $ignore = false;
-            } else if ($match[3] && preg_match("/^$ignoreTags$/i", $match[3]) && substr($match[0], -2) != '/>') {
+              if ($ignore && isset($match[3]) && $match[3] == $ignore) $ignore = false;
+            } else if (isset($match[3]) && preg_match("/^$ignoreTags$/i", $match[3]) && substr($match[0], -2) != '/>') {
               $ignore = '/'.$match[3];
             }
             $newhtml .= $match[0];
           } else {
-            if ($match[1]) $currWord .= strtolower($match[1]);
+            if (isset($match[1]) && $match[1]) $currWord .= strtolower($match[1]);
             $currPart .= $match[0];
           }
         }

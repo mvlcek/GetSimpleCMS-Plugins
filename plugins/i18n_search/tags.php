@@ -2,7 +2,7 @@
   $slug = @$params['slug'];
   $is_ajax = !isset($params['ajax']) || $params['ajax'];
   $addtags = isset($params['addTags']) ? preg_split('/\s+/', trim($params['addTags'])) : null;
-  $reqtags = trim(@$_REQUEST['tags']) ? preg_split('/\s+/',trim($_REQUEST['tags'])) : null;
+  $reqtags = isset($_REQUEST['tags']) && trim($_REQUEST['tags']) ? preg_split('/\s+/',trim($_REQUEST['tags'])) : null;
   $language = isset($params['lang']) ? $params['lang'] : null;
 
   // languages

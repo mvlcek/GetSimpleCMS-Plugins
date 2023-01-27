@@ -261,7 +261,7 @@ class I18nSearcher {
     $this->tags = is_array($tags) ? $tags : (trim($tags) != '' ? preg_split("/\s+/", trim($tags)) : array());
     $this->words = is_array($words) ? $words : (trim($words) != '' ? preg_split("/\s+/", trim($words)) : array());
     $this->language = $language;
-    $order = trim($order);
+    $order = $order ? trim($order) : '';
     if (substr($order,0,1) == '+' || substr($order,0,1) == '-') {
       $this->sort_order = substr($order,0,1);
       $this->sort_field = substr($order,1);

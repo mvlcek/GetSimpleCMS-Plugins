@@ -2,7 +2,7 @@
 /*
 Plugin Name: I18N Search
 Description: Search (I18N enabled!)
-Version: 2.13.2
+Version: 2.13.3
 Author: Martin Vlcek
 Author URI: http://mvlcek.bplaced.net
 
@@ -87,7 +87,7 @@ define('I18N_FILTER_DISPLAY_ITEM', 'search-display');
 register_plugin(
   $thisfile, 
   'I18N Search',   
-  '2.13.2',     
+  '2.13.3',     
   'Martin Vlcek',
   'http://mvlcek.bplaced.net', 
   'Search (I18N enabled!)',
