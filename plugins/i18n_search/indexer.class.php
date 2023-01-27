@@ -262,7 +262,7 @@ class I18nSearchIndexer {
   	global $filters;
   	$pagedata = getXML(GSDATAPAGESPATH . $url . '.xml');
   	$item = new I18nSearchPageItem($pagedata);
-  	if ($item->private == 'Y') continue;
+  	if ($item->private == 'Y') return;
   	// execute filter, but ignore return value
   	foreach ($filters as $filter)  {
   		if ($filter['filter'] == I18N_FILTER_INDEX_PAGE) {
