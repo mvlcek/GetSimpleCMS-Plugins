@@ -2,7 +2,7 @@
 /*
 Plugin Name: Pagify
 Description: Split long content into pages
-Version: 1.4
+Version: 1.4.1
 Author: Martin Vlcek
 Author URI: http://mvlcek.bplaced.net
 
@@ -32,7 +32,7 @@ $pagify = true;
 register_plugin(
 	$thisfile, 
 	'Pagify', 	
-	'1.4', 		
+	'1.4.1', 		
 	'Martin Vlcek',
 	'http://mvlcek.bplaced.net', 
 	'Split long content into pages',
@@ -90,12 +90,12 @@ function pagify($content) {
 #  $pageNum: page number to display
 #  $link: link to go to other pages, must include a placeholder '%PAGE%' for the page number (starting with 0)
 function return_pagify_content($content, $pageSize, $pageNum=0, $link=null) {
-  if (!preg_match('/^hr|(\d+)\s*([a-zA-Z]*)$/',$pageSize,$match)) return $content;
+  if ($pageSize == null || !preg_match('/^hr|(\d+)\s*([a-zA-Z]*)$/',$pageSize,$match)) return $content;
   if ($pageSize == 'hr') {
     $pages = preg_split("@\s*<hr\s*/?>\s*@i", $content);
   } else {
     $size = (int) $match[1];
-    $unit = @$match[2] ? strtolower($match[2]) : 'b';
+    $unit = isset($match[2]) && $match[2] ? strtolower($match[2]) : 'b';
     if ($size <= 0) return $content;
     # split content into pages  
     $ismb = function_exists('mb_strlen');
