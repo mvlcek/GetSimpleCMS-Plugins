@@ -2,7 +2,7 @@
 /*
 Plugin Name: I18N Navigation
 Description: Multilevel navigation & breadcrumbs (I18N enabled)
-Version: 3.3.1
+Version: 3.3.2
 Author: Martin Vlcek
 Author URI: http://mvlcek.bplaced.net
 
@@ -93,7 +93,7 @@ if (function_exists('i18n_load_texts')) {
 register_plugin(
 	$thisfile, 
 	'I18N Navigation', 	
-	'3.3.1', 		
+	'3.3.2', 		
 	'Martin Vlcek',
 	'http://mvlcek.bplaced.net', 
 	i18n_r('i18n_navigation/PLUGIN_DESCRIPTION'),

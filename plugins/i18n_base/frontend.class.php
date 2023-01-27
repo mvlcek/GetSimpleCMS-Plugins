@@ -20,8 +20,8 @@ class I18nFrontend {
       } else if (isset($_COOKIE[I18N_LANGUAGE_COOKIE])) {
         self::$languages[] = $_COOKIE[I18N_LANGUAGE_COOKIE];
       }
-      if (!defined('I18N_IGNORE_USER_LANGUAGE') || !I18N_IGNORE_USER_LANGUAGE) {
-        $httplanguages = explode(",", @$_SERVER['HTTP_ACCEPT_LANGUAGE']);
+      if (!defined('I18N_IGNORE_USER_LANGUAGE') || !I18N_IGNORE_USER_LANGUAGE && isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+        $httplanguages = explode(",", $_SERVER['HTTP_ACCEPT_LANGUAGE']);
         foreach ($httplanguages as $language) {
           $language = substr($language,0,2);
           if (!in_array($language,self::$languages)) self::$languages[] = $language;
@@ -143,10 +143,10 @@ class I18nFrontend {
     }
     if (@strpos(@$PERMALINK_ORIG,'%language%') !== false || 
         @strpos(@$PERMALINK_ORIG,'%nondefaultlanguage%') !== false) {
-      if (substr($language,0,1) == '(') $language = substr($language,1,2);
+      if ($language && substr($language,0,1) == '(') $language = substr($language,1,2);
       $u = self::getFancyLanguageUrl($slug, $slugparent, $language, $type);
     } else {
-      if (substr($language,0,1) == '(') $language = null;
+      if ($language && substr($language,0,1) == '(') $language = null;
       if (@strpos(@$PERMALINK_ORIG,'%parents%') !== false) {
         $u = self::getFancyLanguageUrl($slug, $slugparent, null, $type);
       } else {

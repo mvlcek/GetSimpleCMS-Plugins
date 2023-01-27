@@ -8,7 +8,9 @@
   # tags
   $tags = array();
   foreach ($pages as $page) {
-    foreach (preg_split('/\s*,\s*/', trim(@$page['tags'])) as $t) $tags[$t] = true;
+  	if (isset($page['tags'])) {
+	    foreach (preg_split('/\s*,\s*/', trim($page['tags'])) as $t) $tags[$t] = true;
+  	}
   }
   $tags = array_keys($tags);
   sort($tags);

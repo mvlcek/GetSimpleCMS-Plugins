@@ -2,7 +2,7 @@
 /*
 Plugin Name: I18N Base
 Description: Internationalization based on slug/URL names (e.g. index, index_de, index_fr)
-Version: 3.3.1
+Version: 3.3.2
 Author: Martin Vlcek
 Author URI: http://mvlcek.bplaced.net
 
@@ -90,7 +90,7 @@ i18n_load_texts('i18n_base');
 register_plugin(
 	$thisfile, 
 	'I18N Base', 	
-	'3.3.1', 		
+	'3.3.2', 		
 	'Martin Vlcek',
 	'http://mvlcek.bplaced.net', 
 	i18n_r('i18n_base/PLUGIN_DESCRIPTION'),

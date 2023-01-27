@@ -216,7 +216,7 @@ class I18nNavigationFrontend {
             'currentpath' => in_array($childurl, $breadcrumbs),
             'current' => ($childurl == $currenturl),
             'children' => $children,
-            'haschildren' => $showChildren ? count($children) > 0 : self::hasChildren($childurl, $show)
+            'haschildren' => $showChildren ? $children && count($children) > 0 : self::hasChildren($childurl, $show)
           );
         }
       }
@@ -267,7 +267,7 @@ class I18nNavigationFrontend {
     $component = null;
     if ($componentname && file_exists(GSDATAOTHERPATH.'components.xml')) {
       $data = getXML(GSDATAOTHERPATH.'components.xml');
-      if (count($data->item) != 0) foreach ($data->item as $item) {
+      if ($data->item && count($data->item) != 0) foreach ($data->item as $item) {
         if ($componentname == $item->slug) { 
           $component = stripslashes(htmlspecialchars_decode($item->value, ENT_QUOTES));
           break;
@@ -357,7 +357,7 @@ class I18nNavigationItem {
   private $deflang = null;
   private $data = array();
   
-  public function I18nNavigationItem($item, $classes, $text, $title, $showTitles, $component) {
+  public function __construct($item, $classes, $text, $title, $showTitles, $component) {
     $this->item = $item;
     $this->classes = $classes;
     $this->text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
@@ -368,6 +368,7 @@ class I18nNavigationItem {
   }
   
   public function __get($name) {
+    if (!isset($this->item)) return null;
     switch($name) {
       case 'id':
       case 'url':
