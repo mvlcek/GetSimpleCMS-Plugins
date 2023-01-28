@@ -23,11 +23,12 @@ class HitcountCountries {
     $target = fopen(GSDATAOTHERPATH.'ip2country.zip','w');
     $source = fopen(HITCOUNT_URL,'r');
     $bytes = 0;
-    while (($s = fread($source, 1024*50))) {
+    while (($s = fread($source, 1024*64))) {
       fwrite($target, $s);
       $bytes += strlen($s);
       self::outputProgress(sprintf(i18n('hitcount/DOWNLOADING_COUNTRIES',false),$bytes/1024));
     }
+    self::outputProgress(sprintf(i18n('hitcount/DOWNLOADING_COUNTRIES',false),$bytes/1024));
     fclose($source);
     fclose($target);
     if ($bytes > 0) {
@@ -50,7 +51,7 @@ class HitcountCountries {
         if (preg_match('/^.*\.csv$/i',zip_entry_name($entry)) === 1) {
           zip_entry_open($zip, $entry);
           $bytes = 0;
-          while (($s = zip_entry_read($entry,16384))) {
+          while (($s = zip_entry_read($entry,1024*64))) {
             fwrite($f, $s);
             $bytes += strlen($s);
             self::outputProgress(sprintf(i18n('hitcount/EXTRACTING_COUNTRIES',false),$bytes/1024));
@@ -59,6 +60,7 @@ class HitcountCountries {
           $extracted = true;
         }
       }
+      self::outputProgress(sprintf(i18n('hitcount/EXTRACTING_COUNTRIES',false),$bytes/1024));
       zip_close($zip);
       fclose($f);
     }
@@ -86,13 +88,13 @@ class HitcountCountries {
     $num = 0;
     $added = 0;
     $finished = true;
+    self::outputProgress(sprintf(i18n('hitcount/INDEXING_COUNTRIES',false),$min));
     while (($line = fgetcsv($f)) !== false) {
       if ($num >= $max) {
         $finished = false;
         break;
       }
       if ($num >= $min) {
-        if (($min + $added) % 1000 == 0) self::outputProgress(sprintf(i18n('hitcount/INDEXING_COUNTRIES',false),$min+$added));
         if (count($line) > $iMax) {
           $ipFrom = self::asIp6Hex($line[$iIpFrom]);
           $ipTo = self::asIp6Hex($line[$iIpTo]);
@@ -100,11 +102,15 @@ class HitcountCountries {
           if (strlen($countryCode) <= 2) {
             fprintf($t, "%032s %032s %-2s\r\n", $ipFrom, $ipTo, $countryCode);
             $added++;
+            if ((($min + $added) % 10000) == 0) {
+            	self::outputProgress(sprintf(i18n('hitcount/INDEXING_COUNTRIES',false),$min+$added));
+            }
           }
         }
       }
       $num++;
     }
+    self::outputProgress(sprintf(i18n('hitcount/INDEXING_COUNTRIES',false),$min+$added));
     fclose($f);
     fclose($t);
     if (!$finished) {
@@ -165,12 +171,14 @@ class HitcountCountries {
 
   private static function outputProgress($s) {
     echo '<script type="text/javascript">$("#progress").removeClass().addClass("notify").children().text('.json_encode($s).');</script>'."\r\n";
+    // flush does mostly not work due to output buffering, gzip, etc., but we try anyway: 
+    echo str_repeat(' ', 1024 * 64);
     flush();
+    ob_flush();
   }
 
   private static function outputError($s) {
     echo '<script type="text/javascript">$("#progress").removeClass().addClass("error").children().text('.json_encode($s).');</script>'."\r\n";
-    flush();
     i18n('hitcount/ERROR_COUNTRIES_HELP');
 ?>
     <p class="submitline">
@@ -183,7 +191,6 @@ class HitcountCountries {
 
   private static function outputSuccess($s) {
     echo '<script type="text/javascript">$("#progress").removeClass().addClass("updated").children().text('.json_encode($s).');</script>'."\r\n";
-    flush();
     i18n('hitcount/SUCCESS_COUNTRIES_HELP');
 ?>
     <p class="submitline">
@@ -196,7 +203,6 @@ class HitcountCountries {
 
   private static function redirect($link) {
     echo '<script type="text/javascript">window.location = '.json_encode($link).';</script>';
-    flush();
     die;
   }
 
