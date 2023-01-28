@@ -63,5 +63,17 @@ $i18n = array(
     'DEL_COOKIE' => "Remove my browser from blacklist",
     'DOWNLOAD_IP2COUNTRY' => "Download IP to country database",
     'SET_COOKIE' => "Blacklist my browser",
-    'SHOW_WORLDMAP' => "Show world map"
+    'SHOW_WORLDMAP' => "Show world map",
+    'DOWNLOADING_COUNTRIES' => "Downloading countries... %0d kB",
+    'EXTRACTING_COUNTRIES' => "Extracting countries... %0d kB",
+    'INDEXING_COUNTRIES' => "Indexing countries... %0d lines",
+    'CANT_DOWNLOAD_COUNTRIES' => "Can't download countries ZIP!",
+    'CANT_EXTRACT_COUNTRIES' => "Can't extract countries CSV from ZIP!",
+    'CANT_INDEX_COUNTRIES' => "Can't index countries CSV!",
+    'ERROR_COUNTRIES_HELP' => '<p>For more information on how to download countries see <a href="http://mvlcek.bplaced.net/get-simple/hitcount">here</a>.</p>',
+    'SUCCESS_COUNTRIES' => "Successfully retrieved %0d mappings of IP ranges to countries!",
+    'SUCCESS_COUNTRIES_HELP' => '<p>If you downloaded countries for the first time, you should re-index the hitcount data.</p>',
+    'RETRY' => "Try again",
+    'CANCEL' => "Cancel",
+    'CONTINUE' => "Continue"
 );

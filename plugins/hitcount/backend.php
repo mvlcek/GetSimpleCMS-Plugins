@@ -14,6 +14,7 @@
   } else if (isset($_GET['download'])) {
     require_once(GSPLUGINPATH.'hitcount/country.class.php');
     HitcountCountries::retrieve();
+    return;
   }
   HitcountIndexer::index(); 
   # get parameters from request

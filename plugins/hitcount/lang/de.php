@@ -63,5 +63,17 @@ $i18n = array(
     'DEL_COOKIE' => "Meinen Browser von Blacklist entfernen",
     'DOWNLOAD_IP2COUNTRY' => "IP/Länder-Datenbank herunterladen",
     'SET_COOKIE' => "Meinen Browser auf Blacklist setzen",
-    'SHOW_WORLDMAP' => "Weltkarte anzeigen"
+    'SHOW_WORLDMAP' => "Weltkarte anzeigen",
+    'DOWNLOADING_COUNTRIES' => "Lade Länder herunter... %0d kB",
+		'EXTRACTING_COUNTRIES' => "Extrahiere Länder... %0d kB",
+		'INDEXING_COUNTRIES' => "Indiziere Länder... %0d lines",
+		'CANT_DOWNLOAD_COUNTRIES' => "Kann Länder-ZIP nicht herunterladen!",
+		'CANT_EXTRACT_COUNTRIES' => "Kann Länder-CSV nicht aus Länder-ZIP extrahieren!",
+		'CANT_INDEX_COUNTRIES' => "Kann Länder-CSV nicht indizieren!",
+		'ERROR_COUNTRIES_HELP' => '<p>Für weiterführende Informationen zum Herunterladen der IP/Länder-Datenbank siehe <a href="http://mvlcek.bplaced.net/get-simple/hitcount">hier</a>.</p>',
+		'SUCCESS_COUNTRIES' => "%0d Zuordnungen von IP-Bereichen zu Ländern erfolgreich erstellt!",
+		'SUCCESS_COUNTRIES_HELP' => '<p>Nach dem erstmaligem Herunterladen der IP/Länder-Datenbank sollten die Daten neu indiziert werden.</p>',
+		'RETRY' => "Wiederholen",
+		'CANCEL' => "Abbrechen",
+		'CONTINUE' => "Weiter"
 );
