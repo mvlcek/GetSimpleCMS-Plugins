@@ -22,7 +22,7 @@ function translate_get_php_files($plugin) {
   $dir_handle = @opendir($dir);
   if ($dir_handle) {
     while ($filename = readdir($dir_handle)) {
-      if ($filename != '..' && is_dir($dir.$filename)) {
+      if ($filename != '..' && $filename != '.' && is_dir($dir.$filename)) {
         // second level directory
         $dir2 = $dir.$filename.'/';
         $dir2_handle = @opendir($dir2);
@@ -47,10 +47,10 @@ function translate_get_keys_from_php_files($plugin, $files) {
   $keys = array();
   foreach ($files as $file) {
     $content = file_get_contents($file);
-    if (preg_match_all('/\$i18n\[[\'"]'.$prefix.'([^\'\"\/]+)[\'"]\]/', $content, $matches)) {
+    if (preg_match_all('/\$i18n\s*\[\s*[\'"]'.$prefix.'([^\'\"\/]+)[\'"]\s*\]/', $content, $matches)) {
       foreach ($matches[1] as $key) if (!in_array($key, $keys)) $keys[] = $key;
     } 
-    if (preg_match_all('/\i18n(?:_r)?\([\'"]'.$prefix.'([^\'\"\/]+)[\'"]\)/', $content, $matches)) {
+    if (preg_match_all('/i18n(?:_r)?\s*\(\s*[\'"]'.$prefix.'([^\'\"\/]+)[\'"]\s*[\),]/', $content, $matches)) {
       foreach ($matches[1] as $key) if (!in_array($key, $keys)) $keys[] = $key;
     } 
   }
@@ -139,7 +139,7 @@ function translate_save_language($plugin, $language, $texts) {
   if (!fputs($f, "<?php\n")) return false;
   fputs($f, "\$i18n = array(");
   $first = true;
-  $mq = get_magic_quotes_gpc() || get_magic_quotes_runtime();
+  $mq = (function_exists("get_magic_quotes_gpc") && get_magic_quotes_gpc()) || (function_exists("get_magic_quotes_runtime") && get_magic_quotes_runtime());
   foreach ($texts as $key => $text) {
     $k = str_replace("'","\'",$mq ? stripslashes($key) : $key);
     $t = str_replace('"','\"',$mq ? stripslashes($text) : $text);
@@ -298,7 +298,7 @@ function translate_undo($plugin, $language) {
         $sourcelang = null;
         if (@$_SESSION['transifex_username'] && @$_SESSION['transifex_password']) {
           $stats = translate_load_stats_from_transifex($plugin);
-          if (count($stats) > 0) foreach ($stats as $lang => $stat) {
+          if ($stats && count($stats) > 0) foreach ($stats as $lang => $stat) {
             if ($stat->translated_entities > 0 && !in_array($lang,$languages)) $languages[] = $lang;
             if (@$stat->source) $sourcelang = $lang;
           }
@@ -473,11 +473,11 @@ function translate_undo($plugin, $language) {
         <tr <?php if ($bgcolor) echo 'class="changed"'; ?>>
           <td style="font-size:70%"><?php echo $i; ?></td>
           <td <?php echo !in_array($key,$keysfound) ? 'style="color:gray;font-size:90%"' : 'style="font-size:90%"'; ?>><?php echo htmlspecialchars($key); ?></td>
-          <td><?php echo htmlspecialchars($text); ?></td>
+          <td><?php echo htmlspecialchars($text ? $text : ''); ?></td>
           <td>
             <textarea style="height:inherit; padding:2px; width:220px;<?php if ($bgcolor) echo ' background-color:'.$bgcolor; ?>" rows="1" 
                       class="text" name="text_<?php echo htmlspecialchars($key); ?>" 
-                      title="<?php echo htmlspecialchars(@$orig ? $orig : ''); ?>"><?php echo htmlspecialchars(@$targettexts[$key]); ?></textarea>
+                      title="<?php echo htmlspecialchars(isset($orig) ? $orig : ''); ?>"><?php echo htmlspecialchars(isset($targettexts[$key]) ? $targettexts[$key] : ''); ?></textarea>
           </td>
           <td <?php if ($bgcolor) echo 'class="secondarylink"'; ?>>
             <?php if ($bgcolor) { ?><a href="#" class="copy">C</a><?php } ?>
