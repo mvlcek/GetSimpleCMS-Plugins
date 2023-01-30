@@ -110,7 +110,7 @@ class I18nSpecialPagesBackend {
   }
 
   public static function strip($value) {
-    return get_magic_quotes_gpc() ? stripslashes($value) : $value;
+    return function_exists("get_magic_quotes_gpc") && get_magic_quotes_gpc() ? stripslashes($value) : $value;
   }
 
   public static function save(){

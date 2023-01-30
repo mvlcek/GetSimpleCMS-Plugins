@@ -3,7 +3,7 @@
   class I18nSpecialPagesEditor {
     
     public static function stripSlashes() {
-      if (get_magic_quotes_gpc()) {
+    	if (function_exists("get_magic_quotes_gpc") && get_magic_quotes_gpc()) {
         foreach ($_GET as $key => $value) $_GET[$key] = stripslashes($value);
         foreach ($_POST as $key => $value) $_POST[$key] = stripslashes($value);
       }
