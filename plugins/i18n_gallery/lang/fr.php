@@ -8,7 +8,6 @@ $i18n = array(
   , 'BOTTOM' => "Bas"
   , 'CREATE_GALLERY' => "Créer une nouvelle Gallerie"
   , 'CREATE_HEADER' => "Créer une nouvelle Gallerie"
-  , 'CROP' => "Crop"
   , 'DEFAULT_THUMB_DIMENSIONS' => "Dimensions par défaut des miniatures"
   , 'DELETE' => "Supprimer"
   , 'DELETEGALLERY_TITLE' => "Supprimer la galerie"
