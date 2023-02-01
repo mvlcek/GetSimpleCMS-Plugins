@@ -2,7 +2,7 @@
 /*
 Plugin Name: I18N Custom Fields
 Description: Custom Fields (I18N enabled)
-Version: 1.9.3
+Version: 1.9.4
 Author: Martin Vlcek
 Author URI: http://mvlcek.bplaced.net
 
@@ -26,7 +26,7 @@ define('I18N_CUSTOMFIELDS_FILE', 'customfields.xml');
 register_plugin(
 	$thisfile,
 	'I18N Custom Fields',
-	'1.9.3',
+	'1.9.4',
   'Martin Vlcek',
   'http://mvlcek.bplaced.net/',
   'Custom fields for pages (I18N enabled) - based on Mike Swan\'s plugin',
