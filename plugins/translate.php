@@ -2,7 +2,7 @@
 /*
 Plugin Name: Translate
 Description: Everybody can translate GetSimple!
-Version: 1.0
+Version: 1.1
 Author: Martin Vlcek
 Author URI: http://mvlcek.bplaced.net
 */
@@ -14,7 +14,7 @@ $thisfile = basename(__FILE__, ".php");
 register_plugin(
 	$thisfile, 
 	'Translate', 	
-	'1.0', 		
+	'1.1', 		
 	'Martin Vlcek',
 	'http://mvlcek.bplaced.net', 
 	'Everybody can translate GetSimple!',

@@ -237,7 +237,7 @@ function translate_undo($plugin, $language) {
     $plugin = @$_REQUEST['plugin'];
 ?>
     <style type="text/css">
-      .transifex { float:right; text-align:right; }
+      .transifex { float:right; text-align:right; display: none; }
       .transifex div { display:none; background-color:white; border:solid 1px #C3C3C3; padding:3px; margin-top:5px; }
       .transifex:hover div { display:block }
       .transifex table { width:auto; margin:0; }
