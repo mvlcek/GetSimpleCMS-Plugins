@@ -2,7 +2,7 @@
 /*
 Plugin Name: HitCount
 Description: Counts page hits and visitors
-Version: 2.2.1
+Version: 2.3.0
 Author: Martin Vlcek (c) 2011 - 2020
 Author URI: http://mvlcek.bplaced.net
 
@@ -38,7 +38,7 @@ define('HITCOUNT_VISIT_DURATION', 30*60);
 register_plugin(
 	$thisfile, 
 	'HitCount', 	
-	'2.2.1', 		
+	'2.3.0', 		
 	'Martin Vlcek',
 	'http://mvlcek.bplaced.net', 
 	'Counts page hits and visitors',
