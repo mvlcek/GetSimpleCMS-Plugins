@@ -214,7 +214,7 @@
         $lang = substr($filename, strpos($filename,'_')+1, -4);
         if (!in_array($lang, $languages)) $languages[] = $lang;
       } else {
-        $tags = preg_split('/\s*,\s*/', trim(@$data['metak']));
+      	$tags = isset($data['metak']) ? preg_split('/\s*,\s*/', trim($data['metak'])) : array();
         $special = false;
         foreach ($tags as $tag) {
           if (substr($tag,0,9) == '_special_') { $special = true; break; }
@@ -270,16 +270,16 @@
 
   <div id="tab-general" class="tab">
     <p><?php i18n('i18n_specialpages/CONFIG_EDIT_GENERAL_DESCR'); ?></p>
-    <p><input type="text" class="text title" name="post-title" value="<?php echo @$def['title']; ?>" /></p>
+    <p><input type="text" class="text title" name="post-title" value="<?php if (isset($def['title'])) echo $def['title']; ?>" /></p>
     <table id="editsp" class="edittable highlight">
       <tr>
         <td><label for="post-name"><?php i18n('i18n_specialpages/NAME'); ?></label></td>
-        <td><input type="text" class="text" style="width:240px" id="post-name" name="post-name" value="<?php echo htmlspecialchars(@$def['name']); ?>" /></td> 
+        <td><input type="text" class="text" style="width:240px" id="post-name" name="post-name" value="<?php if (isset($def['name'])) echo htmlspecialchars($def['name']); ?>" /></td> 
         <td><?php i18n('i18n_specialpages/NAME_DESCR'); ?></td>
       </tr>
       <tr>
         <td><label for="post-slug"><?php i18n('SLUG_URL'); ?></label></td>
-        <td><input type="text" class="text" style="width:240px" id="post-slug" name="post-slug" value="<?php echo htmlspecialchars(@$def['slug']); ?>" /></td> 
+        <td><input type="text" class="text" style="width:240px" id="post-slug" name="post-slug" value="<?php if (isset($def['slug'])) echo htmlspecialchars($def['slug']); ?>" /></td> 
         <td><?php i18n('i18n_specialpages/SLUG_URL_DESCR'); ?></td>
       </tr>
       <tr>
@@ -296,7 +296,7 @@
       </tr>
       <tr>
         <td><label for="post-tags"><?php i18n('TAG_KEYWORDS'); ?></label></td>
-        <td><input type="text" class="text" style="width:240px" id="post-tags" name="post-tags" value="<?php echo htmlspecialchars(@$def['tags']); ?>" /></td> 
+        <td><input type="text" class="text" style="width:240px" id="post-tags" name="post-tags" value="<?php if (isset($def['tags'])) echo htmlspecialchars($def['tags']); ?>" /></td> 
         <td><?php i18n('i18n_specialpages/TAG_KEYWORDS_DESCR'); ?></td>
       </tr>
       <tr>
@@ -350,7 +350,7 @@
       <tbody>
   <?php
     $i = 0; 
-    if (count(@$def['fields']) > 0) foreach ($def['fields'] as $cf) {
+    if (isset($def['fields']) && count($def['fields']) > 0) foreach ($def['fields'] as $cf) {
       i18n_specialpages_confline($i, $cf, 'sortable', $issearch);    
       $i++;
     }
@@ -580,10 +580,10 @@
 </script>
 <?php
 
-function i18n_specialpages_confline($i, $def, $class='', $issearch) {
+function i18n_specialpages_confline($i, $def, $class='', $issearch=false) {
   $isdropdown = @$def['type'] == 'dropdown';
   $indexable = !@$def['type'] || in_array(@$def['type'],array('text','textfull','dropdown','textarea','wysiwyg','checkbox'));
-  $options = $isdropdown && count($def['options']) > 0 ? implode("\r\n", $def['options']) : '';
+  $options = $isdropdown && isset($def['options']) && count($def['options']) > 0 ? implode("\r\n", $def['options']) : '';
   if (substr($options,0,2) == "\r\n") $options = "\r\n".$options; // textarea removes first line break!
 ?>
       <tr class="<?php echo $class; ?>">
