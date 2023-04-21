@@ -113,9 +113,10 @@
     return $info;
   }
    
-  include('../../../gsconfig.php');
+  $root = '../../../';
+  include('${root}/gsconfig.php');
   $admin = defined('GSADMIN') ? GSADMIN : 'admin';
-  include("../../../${admin}/inc/common.php");
+  include("${root}/${admin}/inc/common.php");
   $loggedin = cookie_check();
   if (!$loggedin) die("Not logged in!");
   if(!defined('IN_GS')){ die('you cannot load this page directly.'); }
@@ -166,7 +167,7 @@
 		  $dircount++;
 		} else {
 			$ext = @strtolower(substr($file, strrpos($file, '.') + 1));
-      if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'gif' || $ext == 'png') {
+      if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'gif' || $ext == 'png' || $ext == 'webp') {
 			  $ss = @stat($path . $file);
         list($width,$height) = getimagesize($path . $file);
         $info = i18n_gallery_image_info($path . $file, null, @$debug);

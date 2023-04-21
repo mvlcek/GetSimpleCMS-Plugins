@@ -82,6 +82,7 @@ if (!$maxWidth && !$maxHeight) {
       case IMAGETYPE_JPEG2000: $src = @imagecreatefromjpeg($imagedir.$infile); break;
       case IMAGETYPE_PNG: $src = @imagecreatefrompng($imagedir.$infile); break;
       case IMAGETYPE_GIF: $src = @imagecreatefromgif($imagedir.$infile); break;
+      case IMAGETYPE_WEBP: $src = @imagecreatefromwebp($imagedir.$infile); break;
     }
     if (!@$src) die('Can\' read image!');
     if ($crop) {
@@ -126,6 +127,3 @@ function error404() {
   echo '404 File not found';
   exit(0);
 }
-
-
-
