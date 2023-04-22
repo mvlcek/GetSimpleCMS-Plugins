@@ -114,7 +114,7 @@
   }
    
   $root = '../../../';
-  include('${root}/gsconfig.php');
+  include("${root}/gsconfig.php");
   $admin = defined('GSADMIN') ? GSADMIN : 'admin';
   include("${root}/${admin}/inc/common.php");
   $loggedin = cookie_check();
